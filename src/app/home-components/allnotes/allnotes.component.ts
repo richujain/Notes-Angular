@@ -34,29 +34,52 @@ export class AllnotesComponent implements OnInit {
     authState(this.firebaseAuth).subscribe((response) => {
       // console.log(response);
       this.uid = response?.uid;
+      this.loadScribblesFromDatabase();
     });
   }
-  ngOnInit(): void {
-    this.loadScribblesFromDatabase();
-  }
+  ngOnInit(): void {}
   newScribble() {
     this.router.navigate(['/scribble']);
   }
   loadScribblesFromDatabase() {
     this.firestore
       .collection('users')
+      .doc(this.uid)
+      .collection('notes')
       .get()
       .subscribe((ss) => {
         ss.docs.forEach((doc) => {
           this.data.push(doc.data());
+          this.data[this.data.length - 1]['id'] = doc.id;
+
           this.single = this.data[3];
-          // console.log(Object.keys(this.data));
+          console.log(this.data);
           // {owner: 'IiqXhN4lMcc8tXkx7DqjOZQFsuD3', scribble: '<h3 style="text-align: center;">This is a sample</…gn: center;">Hi there, this is a sample test.</p>', title: 'Sample Title Name', category: 'All'}
         });
         this.data.forEach((d) => {
           this.scribbles.push(d.scribble);
         });
-        console.log(this.data);
+        // console.log(this.data);
       });
+  }
+  deleteScribbleFromDatabase(scribbleId: string) {
+    this.firestore
+      .collection('users')
+      .doc(this.uid)
+      .collection('notes')
+      .doc(scribbleId)
+      .delete()
+      .then((res) => {
+        console.log(scribbleId + ' deleted');
+      })
+      .catch((err) => {
+        console.log(scribbleId + ' not deleted. Reason: ' + err);
+      });
+    var i = this.data.length;
+    while (i--) {
+      if (this.data[i]['id'] == scribbleId) {
+        this.data.splice(i, 1);
+      }
+    }
   }
 }

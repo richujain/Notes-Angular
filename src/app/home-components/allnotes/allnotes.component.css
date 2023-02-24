@@ -111,15 +111,13 @@ body {
 }
 
 .menu-button {
-  display: inline;
-  justify-self: flex-end;
   align-self: center;
   border-color: transparent;
   position: absolute;
   right: 0;
-  z-index: 1000;
+  transform: scale(0.75);
   width: auto;
-  line-height: 5px;
+  line-height: 1px;
   padding: 0;
   margin: 0;
 }
@@ -127,6 +125,7 @@ body {
 .menu-button:hover {
   background-color: #a4a6a5;
   border-radius: 100%;
+  transform: scale(0.85);
 }
 
 ::ng-deep .mat-menu-panel {

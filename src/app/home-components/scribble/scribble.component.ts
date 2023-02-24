@@ -32,19 +32,22 @@ export class ScribbleComponent {
   }
   onSave() {
     this.scribble = tinymce.activeEditor?.getContent();
-    this.firestore
-      .collection('users')
-      .add({
-        title: this.title,
-        scribble: this.scribble,
-        category: 'All',
-        owner: this.uid,
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    if (this.scribble !== '')
+      this.firestore
+        .collection('users')
+        .doc(this.uid)
+        .collection('notes')
+        .add({
+          title: this.title,
+          scribble: this.scribble,
+          category: 'All',
+          owner: this.uid,
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
   }
 }

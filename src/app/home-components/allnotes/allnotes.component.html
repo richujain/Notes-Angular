@@ -16,40 +16,48 @@
         <h3 class="file-heading">New Scribble</h3>
       </div>
 
-      <div
-        *ngFor="let scribble of data"
-        class="grid-item"
-        (click)="newScribble()"
-      >
-        <div class="scribble" [innerHTML]="scribble.scribble"></div>
+      <div *ngFor="let scribble of data" class="grid-item">
+        <div
+          (click)="newScribble()"
+          class="scribble"
+          [innerHTML]="scribble.scribble"
+        ></div>
         <div class="heading-container">
-          <h3 class="file-heading">{{ scribble.title }}</h3>
-          <button class="menu-button"><mat-icon>more_vert</mat-icon></button>
+          <h3 (click)="newScribble()" class="file-heading">
+            {{ scribble.title }}
+          </h3>
+          <!-- <button class="menu-button"><mat-icon>more_vert</mat-icon></button> -->
+          <button
+            class="menu-button"
+            (click)="deleteScribbleFromDatabase(scribble.id)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
         </div>
       </div>
     </div>
-  </div>
-  <div class="recents">
-    <div class="sub-container">
-      <h1 class="heading">recents</h1>
-      <div class="horizontal-line"></div>
-    </div>
-    <div class="grid-container">
-      <div class="grid-item">
-        <div class="illustration">
-          <img
-            class="illustration-image"
-            src="/assets/images/create-file.png"
-            alt=""
-          />
-        </div>
-        <h3 class="file-heading">New Scribble</h3>
+    <div class="recents">
+      <div class="sub-container">
+        <h1 class="heading">recents</h1>
+        <div class="horizontal-line"></div>
       </div>
-      <div class="grid-item">2</div>
-      <div class="grid-item">3</div>
-      <div class="grid-item">4</div>
-      <div class="grid-item">5</div>
+      <div class="grid-container">
+        <div class="grid-item">
+          <div class="illustration">
+            <img
+              class="illustration-image"
+              src="/assets/images/create-file.png"
+              alt=""
+            />
+          </div>
+          <h3 class="file-heading">New Scribble</h3>
+        </div>
+        <div class="grid-item">2</div>
+        <div class="grid-item">3</div>
+        <div class="grid-item">4</div>
+        <div class="grid-item">5</div>
+      </div>
+      <div class="horizontal-line horizontal-line-bottom"></div>
     </div>
-    <div class="horizontal-line horizontal-line-bottom"></div>
   </div>
 </div>
