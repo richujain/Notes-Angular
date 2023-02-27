@@ -57,7 +57,9 @@ body {
 .grid-item:hover {
   border-color: #365cc3;
 }
-
+.grid-item:hover > #scribble {
+  border-color: #365cc3;
+}
 /* End of grid */
 
 .illustration {
@@ -77,7 +79,10 @@ body {
 
 .scribble {
   background-color: #ffffff;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
   height: 100%;
+  width: inherit;
   border-top-left-radius: inherit;
   border-top-right-radius: inherit;
   padding: 10px;
@@ -85,6 +90,7 @@ body {
   overflow-y: scroll;
   font-size: 1rem;
 }
+
 ::-webkit-scrollbar {
   width: 0px;
   background: transparent; /* make scrollbar transparent */

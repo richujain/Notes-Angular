@@ -3,7 +3,12 @@
     <button (click)="goBack()" href="#" mat-button>
       <mat-icon>keyboard_backspace</mat-icon>
     </button>
-    <input type="text" [(ngModel)]="title" class="title" />
+    <input
+      type="text"
+      [(ngModel)]="title"
+      class="title"
+      placeholder="Untitled"
+    />
     <button
       class="navbar-toggler"
       type="button"
@@ -38,12 +43,13 @@
       plugins: [
         'advlist autolink lists link image charmap print preview anchor',
         'searchreplace visualblocks code fullscreen',
-        'insertdatetime media table paste code help wordcount'
+        'insertdatetime media table paste code help wordcount',
+        'lists',
+        ' lists checklist'
       ],
       toolbar:
-        'undo redo | styles | fontfamily | fontsize | strikethrough | bold italic backcolor | \
-       alignleft aligncenter alignright alignjustify | \
-       bullist numlist outdent indent | removeformat | blockquote'
+        'checklist | undo redo | styles | fontfamily | fontsize |  bold italic strikethrough backcolor  | \
+       alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | checklist | removeformat'
     }"
   ></editor>
 </div>

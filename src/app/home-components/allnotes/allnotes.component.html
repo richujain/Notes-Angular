@@ -18,8 +18,9 @@
 
       <div *ngFor="let scribble of data" class="grid-item">
         <div
-          (click)="newScribble()"
+          (click)="openScribble(scribble.id)"
           class="scribble"
+          id="scribble"
           [innerHTML]="scribble.scribble"
         ></div>
         <div class="heading-container">

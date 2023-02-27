@@ -15,7 +15,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: LoginComponent },
   { path: 'forgot-password', component: LoginComponent },
-  { path: 'scribble', component: ScribbleComponent },
+  { path: 'scribble/:scribbleId', component: ScribbleComponent },
   { path: 'verify-email', component: VerifyEmailComponent },
   {
     path: 'home',

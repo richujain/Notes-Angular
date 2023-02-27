@@ -21,8 +21,6 @@ export class AllnotesComponent implements OnInit {
   // }> = [];
 
   data: Array<any> = [];
-  single: any = '';
-  scribbles: Array<any> = [];
 
   constructor(
     private router: Router,
@@ -39,7 +37,10 @@ export class AllnotesComponent implements OnInit {
   }
   ngOnInit(): void {}
   newScribble() {
-    this.router.navigate(['/scribble']);
+    this.router.navigate(['/scribble', 'new']);
+  }
+  openScribble(scribbleId: string) {
+    this.router.navigate(['/scribble', scribbleId]);
   }
   loadScribblesFromDatabase() {
     this.firestore
@@ -52,14 +53,9 @@ export class AllnotesComponent implements OnInit {
           this.data.push(doc.data());
           this.data[this.data.length - 1]['id'] = doc.id;
 
-          this.single = this.data[3];
           console.log(this.data);
           // {owner: 'IiqXhN4lMcc8tXkx7DqjOZQFsuD3', scribble: '<h3 style="text-align: center;">This is a sample</…gn: center;">Hi there, this is a sample test.</p>', title: 'Sample Title Name', category: 'All'}
         });
-        this.data.forEach((d) => {
-          this.scribbles.push(d.scribble);
-        });
-        // console.log(this.data);
       });
   }
   deleteScribbleFromDatabase(scribbleId: string) {
