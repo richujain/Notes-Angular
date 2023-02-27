@@ -43,12 +43,33 @@ export class ScribbleComponent implements OnInit {
     this.location.back();
   }
   updateScribble() {
+    this.scribble = tinymce.activeEditor?.getContent();
+    if (this.scribble == '' && this.title == '') {
+      this.deleteScribbleFromDatabase(this.scribbleId);
+    }
+    if (this.title == '') {
+      this.title = 'Untitled';
+    }
     this.firestore
       .collection('users')
       .doc(this.uid)
       .collection('notes')
       .doc(this.scribbleId)
       .update({ title: this.title, scribble: this.scribble });
+  }
+  deleteScribbleFromDatabase(scribbleId: string | undefined) {
+    this.firestore
+      .collection('users')
+      .doc(this.uid)
+      .collection('notes')
+      .doc(scribbleId)
+      .delete()
+      .then((res) => {
+        console.log(scribbleId + ' deleted');
+      })
+      .catch((err) => {
+        console.log(scribbleId + ' not deleted. Reason: ' + err);
+      });
   }
   createScribble() {
     if (this.title == '') {
