@@ -1,0 +1,15 @@
+.space_title {
+  /* background-color: #365cc3; */
+  border: none;
+  border-bottom: solid 2px #fff;
+  color: #111111;
+  text-align: left;
+  font-size: large;
+  text-transform: capitalize;
+}
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+  outline: none;
+}

@@ -9,7 +9,7 @@
       class="title"
       placeholder="Untitled"
     />
-    <button
+    <!-- <button
       class="navbar-toggler"
       type="button"
       aria-controls="navbarSupportedContent"
@@ -17,16 +17,37 @@
       aria-label="Toggle navigation"
     >
       <i class="fas fa-bars text-white"></i>
-    </button>
+    </button> -->
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto">
-        <div class="hori-selector">
+        <!-- <div class="hori-selector">
           <div class="left"></div>
           <div class="right"></div>
-        </div>
+        </div> -->
       </ul>
+
+      <div class="categorySelector">
+        <div class="dropdown">
+          <button class="dropbtn navbar navbar-expand-custom navbar-mainbg">
+            Move to space <mat-icon>arrow_right_alt</mat-icon>
+          </button>
+          <div class="dropdown-content">
+            <li class="item" (click)="openModal()">
+              <mat-icon class="addCategoryIcon">add_circle</mat-icon> Create
+              Space
+            </li>
+            <li>Link 2</li>
+          </div>
+        </div>
+      </div>
+      <!-- <p class="categorySelector" style="align-self: center">Select Category</p> -->
     </div>
+
+    <p class="lastUpdatedText" style="align-self: center">
+      Last Updated: {{ lastUpdated }}
+    </p>
+
     <button (click)="onSave()" href="#" mat-button>
       <mat-icon>save</mat-icon>
     </button>
@@ -44,11 +65,10 @@
         'advlist autolink lists link image charmap print preview anchor',
         'searchreplace visualblocks code fullscreen',
         'insertdatetime media table paste code help wordcount',
-        'lists',
-        ' lists checklist'
+        'lists'
       ],
       toolbar:
-        'checklist | undo redo | styles | fontfamily | fontsize |  bold italic strikethrough backcolor  | \
+        'undo redo | styles | fontfamily | fontsize |  bold italic strikethrough backcolor  | \
        alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | checklist | removeformat'
     }"
   ></editor>
