@@ -14,6 +14,8 @@ export class AllnotesComponent implements OnInit {
   private subscription: any;
   uid: any = '';
   searchTerm: string | undefined = '';
+  scribbleContainer: HTMLElement | null;
+
   // data: Array<{
   //   title: string;
   //   scribble: string;
@@ -37,6 +39,9 @@ export class AllnotesComponent implements OnInit {
       this.loadScribblesFromDatabase('');
       this.loadTemplatesFromDatabase();
     });
+    this.scribbleContainer = document.getElementById('scribble');
+    // if (this.scribbleContainer)
+    //   this.scribbleContainer.style.transform = 'scale(2)';
   }
   ngOnInit(): void {
     this.subscription = this.dataService.search_term.subscribe(
