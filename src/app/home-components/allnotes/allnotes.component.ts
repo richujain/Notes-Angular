@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Auth, authState } from '@angular/fire/auth';
 import { DomSanitizer } from '@angular/platform-browser';
+import { DataService } from 'src/app/shared/data.service';
 
 @Component({
   selector: 'app-allnotes',
@@ -10,8 +11,9 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./allnotes.component.css'],
 })
 export class AllnotesComponent implements OnInit {
+  private subscription: any;
   uid: any = '';
-  sss: any = '';
+  searchTerm: string | undefined = '';
   // data: Array<{
   //   title: string;
   //   scribble: string;
@@ -26,27 +28,45 @@ export class AllnotesComponent implements OnInit {
     private router: Router,
     private sanitized: DomSanitizer,
     private firebaseAuth: Auth,
-    private firestore: AngularFirestore
+    private firestore: AngularFirestore,
+    private dataService: DataService
   ) {
     authState(this.firebaseAuth).subscribe((response) => {
       // console.log(response);
       this.uid = response?.uid;
-      this.loadScribblesFromDatabase();
+      this.loadScribblesFromDatabase('');
       this.loadTemplatesFromDatabase();
     });
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.subscription = this.dataService.search_term.subscribe(
+      (searchTerm: string) => {
+        this.loadScribblesFromDatabase(searchTerm);
+      }
+    );
+  }
+  public onDestroy(): void {
+    // you need this in order to avoid a memory leak
+    this.subscription.unsubscribe();
+  }
   newScribble() {
     this.router.navigate(['/scribble', 'new']);
   }
   openScribble(scribbleId: string) {
     this.router.navigate(['/scribble', scribbleId]);
   }
-  loadScribblesFromDatabase() {
+
+  loadScribblesFromDatabase(search_term: string) {
+    this.data = [];
     this.firestore
       .collection('users')
       .doc(this.uid)
-      .collection('notes', (ref) => ref.orderBy('lastUpdated'))
+      .collection('notes', (ref) =>
+        ref
+          .orderBy('title')
+          .startAt(search_term)
+          .endAt(search_term + '\uf8ff')
+      )
       .get()
       .subscribe((ss) => {
         ss.docs.forEach((doc) => {

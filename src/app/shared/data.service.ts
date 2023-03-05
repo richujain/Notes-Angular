@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Auth, authState } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Subject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -8,11 +9,17 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 export class DataService {
   uid: string | undefined = '';
   spaces: Array<any> = [];
+  public search_term = new Subject<any>();
+
   constructor(private firestore: AngularFirestore, private firebaseAuth: Auth) {
     authState(this.firebaseAuth).subscribe((response) => {
       // console.log(response?.uid);
       this.uid = response?.uid;
     });
+  }
+  onSearchClicked(search_term: string) {
+    this.search_term.next(search_term);
+    // return this.search_term;
   }
 
   checkWhetherSpaceExistsAndCreateSpace(spaceTitle: string) {
