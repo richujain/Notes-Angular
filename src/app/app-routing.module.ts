@@ -11,7 +11,6 @@ import { LogoutComponent } from './home-components/logout/logout.component';
 import { ScribbleComponent } from './home-components/scribble/scribble.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home/directory', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: LoginComponent },
   { path: 'forgot-password', component: LoginComponent },
@@ -21,16 +20,13 @@ const routes: Routes = [
     path: 'home',
     component: HomeComponent,
     children: [
-      // Change
-      { path: '', redirectTo: 'allnotes', pathMatch: 'full' },
-      { path: 'allnotes', redirectTo: 'allnotes' },
-      {
-        path: 'directory',
-        component: DirectoryComponent,
-      },
       {
         path: 'allnotes',
         component: AllnotesComponent,
+      },
+      {
+        path: 'directory',
+        component: DirectoryComponent,
       },
       {
         path: 'about',
@@ -40,8 +36,10 @@ const routes: Routes = [
         path: 'logout',
         component: LogoutComponent,
       },
+      { path: '', redirectTo: 'allnotes', pathMatch: 'full' },
     ],
   },
+  { path: '', redirectTo: 'home/allnotes', pathMatch: 'full' },
 
   // { path: '**', redirectTo: '/login' },
   // { path: '**', redirectTo: '/not-found' },

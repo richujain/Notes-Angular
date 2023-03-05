@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Auth, authState } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+
 import tinymce from 'tinymce';
 import * as moment from 'moment';
 import { ModalComponent } from 'src/app/reusable-components/modal/modal.component';
@@ -31,7 +32,8 @@ export class ScribbleComponent implements OnInit {
     private firestore: AngularFirestore,
     private firebaseAuth: Auth,
     private modalService: MdbModalService,
-    private dataService: DataService
+    private dataService: DataService,
+    private router: Router
   ) {
     // authState(this.firebaseAuth).subscribe((response) => {
     //   this.uid = response?.uid;
