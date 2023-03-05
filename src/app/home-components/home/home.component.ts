@@ -9,6 +9,7 @@ import { AuthService } from 'src/app/shared/auth.service';
 })
 export class HomeComponent implements OnInit {
   myScriptElement: HTMLScriptElement;
+  search_term: string | undefined = '';
   constructor(private auth: AuthService, private router: Router) {
     this.myScriptElement = document.createElement('script');
     this.myScriptElement.src = '/assets/js/navbar.js';

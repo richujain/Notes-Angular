@@ -14,6 +14,8 @@ body {
   /* Set rules to fill background */
   min-height: 100%;
   min-width: 100%;
+  display: flex;
+  flex-direction: column;
 
   /* Set up proportionate scaling */
   width: 100%;
@@ -24,7 +26,9 @@ body {
   top: 0;
   left: 0;
 }
-
+editor {
+  align-self: center;
+}
 /*----------bootstrap-navbar-css------------*/
 .navbar-logo {
   padding: 25px 0px 25px 0px;
@@ -65,12 +69,22 @@ body {
   font-size: 16px;
   margin-right: 2px;
   color: #365cc3;
-  position: absolute;
-  top: 15px; /*Change this to adjust the icon*/
-  left: 10px;
+  vertical-align: middle;
+  display: inline;
+  float: left;
 }
 
-.item {
+.green {
+  color: #34a853;
+}
+
+.hide {
+  opacity: 0;
+}
+
+.space-title {
+  display: inline;
+  height: 26px;
 }
 
 /* Style The Dropdown Button */
@@ -82,10 +96,7 @@ body {
   border: none;
   cursor: pointer;
 }
-.dropbtn > mat-icon {
-  transform: scale(1);
-  margin-left: 2px;
-}
+
 .dropbtn:hover {
   font-size: 17px;
 }
@@ -114,6 +125,7 @@ body {
   text-decoration: none;
   display: block;
   border-radius: 20px;
+  text-align: justify;
 }
 
 /* Change color of dropdown links on hover */
@@ -192,7 +204,7 @@ body {
 
 mat-icon {
   color: #fff;
-  transform: scale(1.5);
+  transform: scale(1.25);
 }
 editor {
   height: 100vh;

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Auth, authState } from '@angular/fire/auth';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-allnotes',
@@ -10,6 +11,7 @@ import { Auth, authState } from '@angular/fire/auth';
 })
 export class AllnotesComponent implements OnInit {
   uid: any = '';
+  sss: any = '';
   // data: Array<{
   //   title: string;
   //   scribble: string;
@@ -18,11 +20,11 @@ export class AllnotesComponent implements OnInit {
   // }> = [];
 
   data: Array<any> = [];
+  templates: Array<any> = [];
 
   constructor(
     private router: Router,
-    // private firestore: AngularFirestore,
-    // private auth: AuthService,
+    private sanitized: DomSanitizer,
     private firebaseAuth: Auth,
     private firestore: AngularFirestore
   ) {
@@ -30,6 +32,7 @@ export class AllnotesComponent implements OnInit {
       // console.log(response);
       this.uid = response?.uid;
       this.loadScribblesFromDatabase();
+      this.loadTemplatesFromDatabase();
     });
   }
   ngOnInit(): void {}
@@ -49,10 +52,31 @@ export class AllnotesComponent implements OnInit {
         ss.docs.forEach((doc) => {
           this.data.push(doc.data());
           this.data[this.data.length - 1]['id'] = doc.id;
+          this.data[this.data.length - 1]['Styledscribble'] =
+            this.sanitized.bypassSecurityTrustHtml(
+              this.data[this.data.length - 1]['scribble']
+            );
 
-          console.log(this.data);
+          // console.log(this.data);
+          // console.log(typeof this.data);
           // {owner: 'IiqXhN4lMcc8tXkx7DqjOZQFsuD3', scribble: '<h3 style="text-align: center;">This is a sample</…gn: center;">Hi there, this is a sample test.</p>', title: 'Sample Title Name', category: 'All'}
         });
+      });
+  }
+  loadTemplatesFromDatabase() {
+    this.firestore
+      .collection('templates')
+      .get()
+      .subscribe((ss) => {
+        ss.docs.forEach((doc) => {
+          this.templates.push(doc.data());
+          this.templates[this.templates.length - 1]['id'] = doc.id;
+          this.templates[this.templates.length - 1]['Styledscribble'] =
+            this.sanitized.bypassSecurityTrustHtml(
+              this.templates[this.templates.length - 1]['scribble']
+            );
+        });
+        console.log(this.templates);
       });
   }
   deleteScribbleFromDatabase(scribbleId: string) {
@@ -74,5 +98,25 @@ export class AllnotesComponent implements OnInit {
         this.data.splice(i, 1);
       }
     }
+  }
+  loadTemplate(title: string, scribble: string, id: string) {
+    // this.dataService.checkWhetherSpaceExistsAndCreateSpace(this.spaceTitle);
+    this.firestore
+      .collection('users')
+      .doc(this.uid)
+      .collection('notes')
+      .add({
+        title: title,
+        scribble: scribble,
+        spaceTitle: 'Untitled',
+        owner: this.uid,
+        lastUpdated: '',
+      })
+      .then((res) => {
+        this.router.navigate(['/scribble', res.id]);
+      })
+      .catch((e) => {
+        // console.log(e);
+      });
   }
 }

@@ -21,7 +21,7 @@
           (click)="openScribble(scribble.id)"
           class="scribble"
           id="scribble"
-          [innerHTML]="scribble.scribble"
+          [innerHTML]="scribble.Styledscribble"
         ></div>
         <div class="heading-container">
           <h3 (click)="newScribble()" class="file-heading">
@@ -39,19 +39,25 @@
     </div>
     <div class="recents">
       <div class="sub-container">
-        <h1 class="heading">recents</h1>
+        <h1 class="heading">templates</h1>
         <div class="horizontal-line"></div>
       </div>
       <div class="grid-container">
-        <div class="grid-item">
-          <div class="illustration">
-            <img
-              class="illustration-image"
-              src="/assets/images/create-file.png"
-              alt=""
-            />
+        <div *ngFor="let template of templates" class="grid-item">
+          <div
+            (click)="
+              loadTemplate(template.title, template.scribble, template.id)
+            "
+            class="scribble"
+            id="scribble"
+            style="font-size: 5px"
+            [innerHTML]="template.Styledscribble"
+          ></div>
+          <div class="heading-container">
+            <h3 (click)="newScribble()" class="file-heading">
+              {{ template.title }}
+            </h3>
           </div>
-          <h3 class="file-heading">New Scribble</h3>
         </div>
         <div class="grid-item">2</div>
         <div class="grid-item">3</div>

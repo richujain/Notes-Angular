@@ -29,6 +29,58 @@ body {
   margin-right: 10px;
 } */
 /*----------bootstrap-navbar-css------------*/
+.search-container {
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: auto;
+  margin-top: auto;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  height: auto;
+  padding: 0;
+  color: white;
+}
+.title {
+  background-color: #365cc3;
+  border: none;
+  border-bottom: solid 2px #fff;
+  color: #fff;
+  text-align: left;
+  font-size: large;
+  text-transform: capitalize;
+}
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+  outline: none;
+}
+mat-icon {
+  color: #fff;
+  transform: scale(1.5);
+}
+/* Beginning of Placeholder */
+
+::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #f1f3f4;
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: #f1f3f4;
+}
+
+::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: #f1f3f4;
+}
+
+/* End of Placeholder */
 .navbar-logo {
   padding: 15px;
   color: #fff;

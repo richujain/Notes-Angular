@@ -20,6 +20,8 @@ export class ScribbleComponent implements OnInit {
   uid: string | undefined = '';
   scribbleId: string | undefined = '';
   scribble: any = '';
+  spaces: Array<any> = [];
+  spaceTitle: string = '';
   title: any = '';
   lastUpdated: string = new Date().toDateString();
 
@@ -42,7 +44,9 @@ export class ScribbleComponent implements OnInit {
     authState(this.firebaseAuth).subscribe((response) => {
       // console.log(response);
       this.uid = response?.uid;
-      if (this.scribbleId) this.loadScribble();
+      if (this.scribbleId !== 'new') this.loadScribble();
+
+      this.spaces = this.dataService.getAllSpace(this.uid);
     });
     this.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
   }
@@ -52,6 +56,10 @@ export class ScribbleComponent implements OnInit {
 
     this.location.back();
   }
+  moveToSpace(spaceTitle: string) {
+    this.spaceTitle = spaceTitle;
+    if (this.scribbleId !== 'new') this.updateScribble();
+  }
   updateScribble() {
     this.scribble = tinymce.activeEditor?.getContent();
     if (this.scribble == '' && this.title == '') {
@@ -59,6 +67,9 @@ export class ScribbleComponent implements OnInit {
     }
     if (this.title == '') {
       this.title = 'Untitled';
+    }
+    if (this.spaceTitle == '') {
+      this.spaceTitle = 'Untitled';
     }
     this.firestore
       .collection('users')
@@ -69,6 +80,7 @@ export class ScribbleComponent implements OnInit {
         title: this.title,
         scribble: this.scribble,
         lastUpdated: this.lastUpdated,
+        spaceTitle: this.spaceTitle,
       });
   }
   deleteScribbleFromDatabase(scribbleId: string | undefined) {
@@ -86,10 +98,16 @@ export class ScribbleComponent implements OnInit {
       });
   }
   createScribble() {
+    console.log('spcetitle' + this.spaceTitle);
     if (this.title == '') {
       this.title = 'Untitled';
     }
+    if (this.spaceTitle == '') {
+      this.spaceTitle = 'Untitled';
+    }
+    this.dataService.checkWhetherSpaceExistsAndCreateSpace(this.spaceTitle);
     this.scribble = tinymce.activeEditor?.getContent();
+    // this.dataService.checkWhetherSpaceExistsAndCreateSpace(this.spaceTitle);
     if (this.scribble !== '')
       this.firestore
         .collection('users')
@@ -98,7 +116,7 @@ export class ScribbleComponent implements OnInit {
         .add({
           title: this.title,
           scribble: this.scribble,
-          category: 'All',
+          spaceTitle: this.spaceTitle,
           owner: this.uid,
           lastUpdated: this.lastUpdated,
         })
@@ -110,13 +128,14 @@ export class ScribbleComponent implements OnInit {
         });
   }
   onSave() {
+    console.log('spaecs are :' + this.spaces);
     this.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
     if (this.scribbleId !== 'new') this.updateScribble();
     else this.createScribble();
     this.loadScribble();
   }
   loadScribble() {
-    // console.log('Params' + this.scribbleId);
+    // console.log('Params' + this.uid);
     this.firestore
       .collection('users')
       .doc(this.uid)
@@ -126,6 +145,9 @@ export class ScribbleComponent implements OnInit {
       .forEach((scribble) => {
         this.title = scribble.exists ? scribble?.data()?.['title'] : '';
         this.scribble = scribble.exists ? scribble?.data()?.['scribble'] : '';
+        this.spaceTitle = scribble.exists
+          ? scribble?.data()?.['spaceTitle']
+          : '';
         this.lastUpdated = scribble.exists
           ? scribble?.data()?.['lastUpdated']
           : '';
@@ -138,7 +160,14 @@ export class ScribbleComponent implements OnInit {
     });
     this.modalRef.onClose.subscribe((spaceTitle: any) => {
       // console.log(spaceTitle);
-      this.dataService.createSpace(spaceTitle);
+      this.dataService.checkWhetherSpaceExistsAndCreateSpace(spaceTitle);
+      // Avoiding unnecessary call to database
+      // this.spaces = this.dataService.getAllSpace(this.uid);
+
+      if (!this.spaces.some((space) => space.title == spaceTitle)) {
+        this.spaces.push({ title: spaceTitle });
+        this.moveToSpace(spaceTitle);
+      }
     });
   }
 }

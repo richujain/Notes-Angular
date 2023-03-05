@@ -30,14 +30,27 @@
       <div class="categorySelector">
         <div class="dropdown">
           <button class="dropbtn navbar navbar-expand-custom navbar-mainbg">
-            Move to space <mat-icon>arrow_right_alt</mat-icon>
+            Move to space
+            <mat-icon
+              style="margin-left: 3px; vertical-align: middle; height: 23px"
+              >arrow_right_alt</mat-icon
+            >
           </button>
           <div class="dropdown-content">
-            <li class="item" (click)="openModal()">
-              <mat-icon class="addCategoryIcon">add_circle</mat-icon> Create
-              Space
+            <li (click)="openModal()">
+              <mat-icon class="addCategoryIcon">add_circle</mat-icon>
+              Create Space
             </li>
-            <li>Link 2</li>
+            <li
+              *ngFor="let space of spaces"
+              (click)="moveToSpace(space['title'])"
+            >
+              <mat-icon
+                class="addCategoryIcon green hide"
+                [class.hide]="spaceTitle !== space['title']"
+                >check_circle</mat-icon
+              >{{ space["title"] }}
+            </li>
           </div>
         </div>
       </div>
@@ -56,10 +69,12 @@
     <textarea id="mytextarea">Hello, World!</textarea>
   </form> -->
   <editor
+    style="float: center"
     [(ngModel)]="scribble"
     apiKey="hepyziqfo0vp0o0x7sa3mgvyf4tzqbxat818g2oh84iy9kh9"
     [init]="{
       height: 800,
+      width: 800,
       menubar: 'file edit insert view format table tools help',
       plugins: [
         'advlist autolink lists link image charmap print preview anchor',
