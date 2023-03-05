@@ -15,7 +15,7 @@ export class AuthService {
       (res: any) => {
         if (res.user?.emailVerified == true) {
           localStorage.setItem('token', 'true');
-          this.router.navigate(['home/directory']);
+          this.router.navigate(['home']);
         } else {
           this.router.navigate(['/verify-email']);
           // alert('Please verify your email to login');
