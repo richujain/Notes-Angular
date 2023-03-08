@@ -104,7 +104,7 @@ export class ScribbleComponent implements OnInit {
     if (this.title == '') {
       this.title = 'Untitled';
     }
-    if (this.spaceTitle == '') {
+    if (this.spaceTitle == '' || this.spaceTitle == 'All') {
       this.spaceTitle = 'Untitled';
     }
     this.dataService.checkWhetherSpaceExistsAndCreateSpace(this.spaceTitle);
@@ -130,7 +130,6 @@ export class ScribbleComponent implements OnInit {
         });
   }
   onSave() {
-    console.log('spaecs are :' + this.spaces);
     this.lastUpdated = moment().format('MMMM Do YYYY, h:mm:ss a');
     if (this.scribbleId !== 'new') this.updateScribble();
     else this.createScribble();

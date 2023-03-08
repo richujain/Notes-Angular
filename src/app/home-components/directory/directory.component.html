@@ -1,51 +1,67 @@
-<div class="grid-container">
-  <div class="grid-item">1</div>
-  <div class="grid-item">2</div>
-  <div class="grid-item">3</div>
-  <div class="grid-item">4</div>
-  <div class="grid-item">5</div>
-  <div class="grid-item">6</div>
-  <div class="grid-item">7</div>
-  <div class="grid-item">8</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
-  <div class="grid-item">9</div>
+<div class="container">
+  <div class="notes">
+    <div class="sub-container">
+      <h1 class="heading">notes</h1>
+      <div class="horizontal-line"></div>
+    </div>
+    <div class="grid-container">
+      <div class="grid-item" (click)="openModal()">
+        <div class="space" id="scribble">
+          <mat-icon class="illustration-image">create_new_folder</mat-icon>
+        </div>
+        <h3 class="file-heading">Create Space</h3>
+      </div>
+
+      <div *ngFor="let space of spaces" class="grid-item">
+        <div (click)="openSpace(space.title)" class="scribble" id="scribble">
+          <mat-icon class="folder-icon">folder</mat-icon>
+        </div>
+        <div class="heading-container">
+          <h3 (click)="openSpace(space.title)" class="file-heading">
+            {{ space.title }}
+          </h3>
+          <!-- <button class="menu-button"><mat-icon>more_vert</mat-icon></button> -->
+          <button class="menu-button" (click)="deleteSpace(space.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="recents">
+      <div class="sub-container">
+        <h1 class="heading">recents</h1>
+        <div class="horizontal-line"></div>
+      </div>
+      <div class="grid-container">
+        <div *ngFor="let scribble of data" class="grid-item-scribble">
+          <div
+            (click)="openScribble(scribble.id)"
+            class="scribble"
+            id="scribble"
+            [innerHTML]="scribble.Styledscribble"
+          ></div>
+          <div class="heading-container">
+            <h3 (click)="openScribble(scribble.id)" class="file-heading">
+              {{ scribble.title }}
+            </h3>
+            <!-- <button class="menu-button"><mat-icon>more_vert</mat-icon></button> -->
+            <button
+              class="menu-button"
+              (click)="deleteScribbleFromDatabase(scribble.id)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="trash" id="scribble">
+        <mat-icon class="trash-image" style="color: #d8493f"
+          >delete_forever</mat-icon
+        >
+        <h3 class="file-heading">Trash</h3>
+      </div>
+
+      <div class="horizontal-line horizontal-line-bottom"></div>
+    </div>
+  </div>
 </div>

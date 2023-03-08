@@ -11,9 +11,10 @@ import { DataService } from 'src/app/shared/data.service';
 export class HomeComponent implements OnInit {
   myScriptElement: HTMLScriptElement;
   search_term: string = '';
+  spaces: Array<any> = [];
   constructor(
     private auth: AuthService,
-    private router: Router,
+    public router: Router,
     private dataService: DataService
   ) {
     this.myScriptElement = document.createElement('script');
@@ -30,5 +31,10 @@ export class HomeComponent implements OnInit {
   }
   search() {
     this.dataService.onSearchClicked(this.search_term);
+  }
+  reloadComponent() {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate(['/same-route']);
   }
 }

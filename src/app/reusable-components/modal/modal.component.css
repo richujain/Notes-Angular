@@ -1,6 +1,7 @@
 .space_title {
   /* background-color: #365cc3; */
   border: none;
+  width: 100%;
   border-bottom: solid 2px #fff;
   color: #111111;
   text-align: left;

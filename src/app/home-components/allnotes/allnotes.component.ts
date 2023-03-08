@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Auth, authState } from '@angular/fire/auth';
-import { DomSanitizer } from '@angular/platform-browser';
 import { DataService } from 'src/app/shared/data.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-allnotes',
@@ -13,6 +13,7 @@ import { DataService } from 'src/app/shared/data.service';
 export class AllnotesComponent implements OnInit {
   private subscription: any;
   uid: any = '';
+  spaceTitle: string = '';
   searchTerm: string | undefined = '';
   scribbleContainer: HTMLElement | null;
 
@@ -27,18 +28,25 @@ export class AllnotesComponent implements OnInit {
   templates: Array<any> = [];
 
   constructor(
+    private route: ActivatedRoute,
     private router: Router,
     private sanitized: DomSanitizer,
     private firebaseAuth: Auth,
     private firestore: AngularFirestore,
     private dataService: DataService
   ) {
-    authState(this.firebaseAuth).subscribe((response) => {
-      // console.log(response);
-      this.uid = response?.uid;
-      this.loadScribblesFromDatabase('');
-      this.loadTemplatesFromDatabase();
+    this.route.params.subscribe((params: Params) => {
+      this.spaceTitle = params['spaceTitle'];
+      authState(this.firebaseAuth).subscribe((response) => {
+        // console.log(response);
+        this.uid = response?.uid;
+        this.spaceTitle == 'All'
+          ? this.loadScribblesFromDatabase('')
+          : this.loadScribblesFromDatabasewithFilter(this.spaceTitle);
+        this.loadTemplatesFromDatabase();
+      });
     });
+    //Moved auth from here to inside subscriber to run every time params changes.
     this.scribbleContainer = document.getElementById('scribble');
     // if (this.scribbleContainer)
     //   this.scribbleContainer.style.transform = 'scale(2)';
@@ -61,6 +69,37 @@ export class AllnotesComponent implements OnInit {
     this.router.navigate(['/scribble', scribbleId]);
   }
 
+  loadScribblesFromDatabasewithFilter(search_term: string) {
+    console.log('spacetitle:' + this.spaceTitle);
+
+    this.data = [];
+    this.firestore
+      .collection('users')
+      .doc(this.uid)
+      .collection('notes', (ref) =>
+        ref
+
+          .orderBy('spaceTitle')
+          .startAt(search_term)
+          .endAt(search_term + '\uf8ff')
+      )
+      .get()
+      .subscribe((ss) => {
+        ss.docs.forEach((doc) => {
+          this.data.push(doc.data());
+          this.data[this.data.length - 1]['id'] = doc.id;
+          this.data[this.data.length - 1]['Styledscribble'] =
+            this.sanitized.bypassSecurityTrustHtml(
+              this.data[this.data.length - 1]['scribble']
+            );
+
+          // console.log(this.data);
+          // console.log(typeof this.data);
+          // {owner: 'IiqXhN4lMcc8tXkx7DqjOZQFsuD3', scribble: '<h3 style="text-align: center;">This is a sample</…gn: center;">Hi there, this is a sample test.</p>', title: 'Sample Title Name', category: 'All'}
+        });
+        console.log(this.data);
+      });
+  }
   loadScribblesFromDatabase(search_term: string) {
     this.data = [];
     this.firestore
@@ -101,7 +140,7 @@ export class AllnotesComponent implements OnInit {
               this.templates[this.templates.length - 1]['scribble']
             );
         });
-        console.log(this.templates);
+        // console.log(this.templates);
       });
   }
   deleteScribbleFromDatabase(scribbleId: string) {

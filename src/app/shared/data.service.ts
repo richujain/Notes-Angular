@@ -63,10 +63,25 @@ export class DataService {
           ss.docs.forEach((doc) => {
             // this.spaces.push(doc.data()['title']);
             this.spaces.push(doc.data());
+            this.spaces[this.spaces.length - 1]['id'] = doc.id;
           });
           // console.log('spaces: ' + this.spaces);
           return this.spaces;
         });
     return this.spaces;
+  }
+  deleteSpaceFromDatabase(spaceId: string | undefined) {
+    this.firestore
+      .collection('users')
+      .doc(this.uid)
+      .collection('spaces')
+      .doc(spaceId)
+      .delete()
+      .then((res) => {
+        console.log(spaceId + ' deleted');
+      })
+      .catch((err) => {
+        console.log(spaceId + ' not deleted. Reason: ' + err);
+      });
   }
 }

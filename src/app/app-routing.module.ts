@@ -21,7 +21,7 @@ const routes: Routes = [
     component: HomeComponent,
     children: [
       {
-        path: 'allnotes',
+        path: 'allnotes/:spaceTitle',
         component: AllnotesComponent,
       },
       {
@@ -36,10 +36,10 @@ const routes: Routes = [
         path: 'logout',
         component: LogoutComponent,
       },
-      { path: '', redirectTo: 'allnotes', pathMatch: 'full' },
+      { path: '', redirectTo: 'allnotes/All', pathMatch: 'full' },
     ],
   },
-  { path: '', redirectTo: 'home/allnotes', pathMatch: 'full' },
+  { path: '', redirectTo: 'home/allnotes/All', pathMatch: 'full' },
 
   // { path: '**', redirectTo: '/login' },
   // { path: '**', redirectTo: '/not-found' },

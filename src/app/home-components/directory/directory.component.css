@@ -1,19 +1,216 @@
+html,
+body {
+  font-family: "Roboto", sans-serif;
+}
+.sub-container {
+  margin-top: 25px;
+}
+.heading {
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #365cc3;
+  text-align: start;
+}
+.horizontal-line {
+  height: 5px;
+  min-width: 100%;
+  background: #365cc3;
+  border-radius: 10px;
+}
+.horizontal-line-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  border-radius: 0px;
+}
+.container:after {
+  content: " ";
+  display: block;
+  height: 2rem;
+  width: 1rem;
+}
+
 /* Beginning of Grid */
 
 .grid-container {
-  margin: 1rem;
+  margin-top: 1rem;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
-  column-gap: 50px;
-  grid-column: 1 / span 3;
-  row-gap: 50px;
+  grid-template-rows: 1fr;
+  column-gap: 1rem;
+  row-gap: 1rem;
   columns: 5;
 }
 .grid-item {
-  background-color: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 20px;
-  font-size: 30px;
-  text-align: center;
+  height: 10rem;
+  width: 10rem;
+  /* border: 1px solid rgba(0, 0, 0, 0.8); */
+  /* border: 1px solid rgba(0, 0, 0, 0.1); */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.grid-item-scribble {
+  height: 15rem;
+  width: 10rem;
+  /* border: 1px solid rgba(0, 0, 0, 0.8); */
+  /* border: 1px solid rgba(0, 0, 0, 0.1); */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.grid-item:hover {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-color: #365cc3;
+}
+.grid-item:hover > #scribble {
+  border-color: #365cc3;
+}
+/* End of grid */
+
+/* .illustration {
+  height: auto;
+  width: 100%;
+  padding-top: 10px;
+  border-radius: 10px;
+} */
+.illustration-image {
+  width: 100%;
+  height: 100%;
+  font-size: 5rem;
+  vertical-align: middle;
+  color: #34a853;
+}
+.folder-icon {
+  color: #e5da1e;
+  width: 100%;
+  height: 100%;
+  font-size: 5rem;
+  vertical-align: middle;
+}
+.scribble {
+  border-left: 1px solid #f1f3f4;
+  border-right: 1px solid #f1f3f4;
+  height: 100%;
+  width: inherit;
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+  padding: 10px;
+  overflow: hidden;
+  overflow-y: scroll;
+  font-size: 1rem;
+}
+
+.trash {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  cursor: pointer;
+}
+.trash:hover {
+  transform: scale(1.1);
+}
+.trash-image {
+  width: 100%;
+  height: 100%;
+  font-size: 3rem;
+  vertical-align: middle;
+  color: #34a853;
+}
+
+/* :host .scribble h2 {
+  color: #365cc3;
+  font-size: 10px !important;
+} */
+::ng-deep.scribble span {
+  font-size: 0.5rem !important;
+}
+::ng-deep.scribble h2 {
+  font-size: 0.5rem !important;
+}
+::ng-deep.scribble li {
+  font-size: 0.5rem !important;
+}
+::ng-deep.scribble ul {
+  font-size: 0.5rem !important;
+}
+::ng-deep.scribble {
+  line-height: 1;
+}
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent; /* make scrollbar transparent */
+}
+.heading-container {
+  /* overflow: hidden; */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.file-heading {
+  font-size: 16px;
+  font-weight: 500;
+  color: #111111;
+  margin: 0px;
+  width: 100%;
+  white-space: nowrap;
+  align-items: center;
+  padding: 5px;
+}
+
+.menu-button {
+  align-self: center;
+  border-color: transparent;
+  position: absolute;
+  right: 0;
+  transform: scale(0.75);
+  width: auto;
+  line-height: 1px;
+  padding: 0;
+  margin: 0;
+  color: #d8493f;
+}
+
+.menu-button:hover {
+  background-color: #a4a6a5;
+  border-radius: 100%;
+  transform: scale(1);
+  color: red;
+}
+
+::ng-deep .mat-menu-panel {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+@media (max-width: 1000px) {
+  .grid-container {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
+@media (max-width: 775px) {
+  .grid-container {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+@media (max-width: 550px) {
+  .grid-container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 376px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+  }
 }

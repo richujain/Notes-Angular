@@ -24,7 +24,7 @@
           [innerHTML]="scribble.Styledscribble"
         ></div>
         <div class="heading-container">
-          <h3 (click)="newScribble()" class="file-heading">
+          <h3 (click)="openScribble(scribble.id)" class="file-heading">
             {{ scribble.title }}
           </h3>
           <!-- <button class="menu-button"><mat-icon>more_vert</mat-icon></button> -->
